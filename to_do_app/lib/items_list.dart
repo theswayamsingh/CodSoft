@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'globals.dart' as globals;
+import 'dart:developer';
 
 class ItemsList extends StatefulWidget {
   const ItemsList({super.key, required this.gotoTaskWindow});
@@ -24,7 +25,7 @@ class _ItemsListState extends State<ItemsList> {
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-          'CREATE TABLE data (id INTEGER PRIMARY KEY, title TEXT, description TEXT, completed TEXT)'
+          'CREATE TABLE data (title TEXT PRIMARY KEY, description TEXT, completed TEXT)'
         );
       },
     );
@@ -63,14 +64,14 @@ class _ItemsListState extends State<ItemsList> {
                 version: 1,
                 onCreate: (db, version) async {
                   await db.execute(
-                    'CREATE TABLE data (id INTEGER PRIMARY KEY, title TEXT, description TEXT, completed TEXT)'
+                    'CREATE TABLE data (title TEXT PRIMARY KEY, description TEXT, completed TEXT)'
                   );
                 },
               );
               if (itemsList[index]['completed']=="false"){
-                await dataBase.rawUpdate('UPDATE data SET completed = "true" WHERE id=$index');
+                await dataBase.rawUpdate('UPDATE data SET completed = "true" WHERE title="${itemsList[index]['title']}"');
               } else {
-                await dataBase.rawUpdate('UPDATE data SET completed = "false" WHERE id=$index');
+                await dataBase.rawUpdate('UPDATE data SET completed = "false" WHERE title="${itemsList[index]['title']}"');
               }
               setState(() {});
             },
@@ -80,7 +81,8 @@ class _ItemsListState extends State<ItemsList> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const SizedBox(),
-              Center(
+              SizedBox(
+                width:210,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Text(
@@ -131,7 +133,7 @@ class _ItemsListState extends State<ItemsList> {
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-          'CREATE TABLE data (id INTEGER PRIMARY KEY, title TEXT, description TEXT, completed TEXT)'
+          'CREATE TABLE data (title TEXT PRIMARY KEY, description TEXT, completed TEXT)'
         );
       },
     );
@@ -151,11 +153,11 @@ class _ItemsListState extends State<ItemsList> {
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-          'CREATE TABLE data (id INTEGER PRIMARY KEY, title TEXT, description TEXT, completed TEXT)'
+          'CREATE TABLE data (title TEXT PRIMARY KEY, description TEXT, completed TEXT)'
         );
       },
     );
-    await dataBase.rawDelete('DELETE FROM data WHERE id=$index');
+    await dataBase.rawDelete('DELETE FROM data WHERE title="${itemsList[index]['title']}"');
     dataBase.close();
   }
 

@@ -22,16 +22,16 @@ class _TaskScreenState extends State<TaskScreen> {
         version: 1,
         onCreate: (db, version) async {
           await db.execute(
-            'CREATE TABLE data (id INTEGER PRIMARY KEY, title TEXT, description TEXT, completed TEXT)'
+            'CREATE TABLE data (title TEXT PRIMARY KEY, description TEXT, completed TEXT)'
           );
         },
       );
       // await deleteDatabase(path);
       List<Map> list = await dataBase.rawQuery('SELECT * FROM data');
       if (globals.itemIndex==-1){
-        await dataBase.rawInsert('INSERT INTO data(id, title, description, completed) VALUES(${list.length}, "${globals.title.text}", "${globals.description.text}", "false")');
+        await dataBase.rawInsert('INSERT INTO data(title, description, completed) VALUES("${globals.title.text}", "${globals.description.text}", "false")');
       } else {
-        await dataBase.rawUpdate('UPDATE data SET title = "${globals.title.text}", description = "${globals.description.text}" WHERE id = ${globals.itemIndex}');
+        await dataBase.rawUpdate('UPDATE data SET title = "${globals.title.text}", description = "${globals.description.text}" WHERE title="${list[globals.itemIndex!]['title']}"');
       }
       dataBase.close();
       widget.gotoItemsList();
