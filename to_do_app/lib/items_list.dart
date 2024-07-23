@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'globals.dart' as globals;
-import 'dart:developer';
 
 class ItemsList extends StatefulWidget {
   const ItemsList({super.key, required this.gotoTaskWindow});
