@@ -1,10 +1,11 @@
 // build() is called when constructor function is called and when setState() is called.
 
 import 'package:flutter/material.dart';
-import 'package:secondapp/questions_screen.dart';
-import 'package:secondapp/start_screen.dart';
-import 'package:secondapp/data/questions.dart';
-import 'package:secondapp/result_screen.dart';
+import 'package:quiz_app/options_screen.dart';
+import 'package:quiz_app/questions_screen.dart';
+import 'package:quiz_app/start_screen.dart';
+import 'package:quiz_app/result_screen.dart';
+import 'globals.dart' as globals;
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -30,7 +31,7 @@ class _QuizState extends State<Quiz> {
   // Alternate Method B.
   List<String> selectedAnswers = [];
   var activeScreen = 'start-screen';
-  void switchScreen() {
+  void switchToQuesScreen() {
     setState(() {
       // Method A.
       // activeScreen = const QuestionsScreen();
@@ -40,19 +41,29 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  void switchToOptionsScreen() {
+    setState(() {
+      // Method A.
+      // activeScreen = const QuestionsScreen();
+
+      // Alternate Method B.
+      activeScreen = 'options-screen';
+    });
+  }
+
   void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
-    if (selectedAnswers.length == questions.length) {      // questions.dart
+    if (selectedAnswers.length == globals.questions[globals.index!].length) {      // questions.dart
       setState(() {
         activeScreen = 'result-screen';
       });
     }
   }
 
-  void restartQuiz() {
+  void switchToHome() {
     setState(() {
       selectedAnswers = [];
-      activeScreen = 'questions-screen';
+      activeScreen = 'home-screen';
     });
   }
 
@@ -60,20 +71,29 @@ class _QuizState extends State<Quiz> {
   Widget build(context) {
     // build() - Executed by Flutter when the Widget is built for the first time AND after setState() was called.
 
-    Widget screenWidget = StartScreen(startQuiz: switchScreen);      //start_screen.dart
+    Widget screenWidget = StartScreen(start: switchToOptionsScreen); ;      //start_screen.dart
+    if (activeScreen == 'home-screen') {
+      screenWidget = StartScreen(start: switchToOptionsScreen);       //questions_screen.dart
+    }
     if (activeScreen == 'questions-screen') {
       screenWidget = QuestionsScreen(onSelectAnswer:  chooseAnswer);      //questions_screen.dart
     }
     if (activeScreen == 'result-screen') {
-      screenWidget = ResultScreen(chosenAnswers: selectedAnswers, onRestart: restartQuiz,);      //result_screen.dart
+      screenWidget = ResultScreen(chosenAnswers: selectedAnswers, home: switchToHome,);      //result_screen.dart
+    }
+    if (activeScreen == 'options-screen') {
+      screenWidget = OptionsScreen(startQuiz: switchToQuesScreen);      //result_screen.dart
     }
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.blue, Color.fromARGB(255, 68, 255, 199)],
+              colors: [
+                  Color.fromARGB(255, 135, 167, 255),
+                  Color.fromARGB(255, 148, 153, 255),],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),

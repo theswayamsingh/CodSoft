@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:secondapp/data/questions.dart';
-import 'package:secondapp/questions_summary/questions_summary.dart';
+import 'package:quiz_app/questions_summary/questions_summary.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'globals.dart' as globals;
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key, required this.chosenAnswers, required this.onRestart});
+  const ResultScreen({super.key, required this.chosenAnswers, required this.home});
 
-  final void Function() onRestart;
+  final void Function() home;
   final List<String> chosenAnswers;
 
   // Map is same as Dictionary in python.
@@ -16,8 +16,8 @@ class ResultScreen extends StatelessWidget {
     for (var i = 0; i < chosenAnswers.length; i++) {
       summary.add({
         'question_index': i,
-        'question': questions[i].text,       // questions.dart
-        'correct_answer': questions[i].answers[0],
+        'question': globals.questions[globals.index!][i].text,       // questions.dart
+        'correct_answer': globals.questions[globals.index!][i].answers[0],
         'user_answer': chosenAnswers[i]
       });
     }
@@ -27,7 +27,7 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final summaryData = getSummaryData();
-    final numTotalQuestions = questions.length;
+    final numTotalQuestions = globals.questions[globals.index!].length;
     final numCorrectQuestions = summaryData.where((data) {
       // if false than data is dropped and in the end new list is formed.
       return data['user_answer'] == data['correct_answer'];
@@ -43,8 +43,8 @@ class ResultScreen extends StatelessWidget {
             Text(
               'You answered $numCorrectQuestions out of $numTotalQuestions questions correctly!',
               style: GoogleFonts.lato(
-                color: const Color.fromARGB(255, 230, 200, 253),
-                fontSize: 20,
+                color: Colors.black,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
@@ -57,12 +57,12 @@ class ResultScreen extends StatelessWidget {
               height: 30,
             ),
             TextButton.icon(
-              onPressed: onRestart,
+              onPressed: home,
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
               ),
-              icon: const Icon(Icons.refresh),
-              label: const Text('Restart Quiz!'),
+              icon: const Icon(Icons.home, size: 28,),
+              label: const Text('Home', style: TextStyle(fontSize: 24),),
             )
           ],
         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:secondapp/questions_summary/question_identifier.dart';
+import 'package:quiz_app/questions_summary/question_identifier.dart';
 
 class SummaryItem extends StatelessWidget {
   const SummaryItem(this.itemData, {super.key});
@@ -33,7 +33,7 @@ class SummaryItem extends StatelessWidget {
                   itemData['question'] as String,
                   style: GoogleFonts.lato(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -42,11 +42,11 @@ class SummaryItem extends StatelessWidget {
                 ),
                 Text(itemData['user_answer'] as String,
                     style: const TextStyle(
-                      color: Color.fromARGB(255, 202, 171, 252),
+                      color: Color.fromARGB(255, 19, 35, 255),
                     )),
                 Text(itemData['correct_answer'] as String,
                     style: const TextStyle(
-                      color: Color.fromARGB(255, 181, 254, 246),
+                      color: Color.fromARGB(255, 107, 255, 238),
                     )),
               ],
             ),

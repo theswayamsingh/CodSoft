@@ -1,9 +1,9 @@
 // flutter pub add google_fonts (run in terminal)
 
 import 'package:flutter/material.dart';
-import 'package:secondapp/answer_button.dart';
-import 'package:secondapp/data/questions.dart';
+import 'package:quiz_app/answer_button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'globals.dart' as globals;
 
 class QuestionsScreen extends StatefulWidget {
   const QuestionsScreen({super.key, required this.onSelectAnswer});
@@ -30,7 +30,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   @override
   Widget build(context) {
-    final currentQuestion = questions[currentQuestionIndex];
+    final currentQuestion = globals.questions[globals.index!][currentQuestionIndex];
 
     return SizedBox(
       width: double.infinity, // Take space as much as possible.
@@ -45,7 +45,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             Text(
               currentQuestion.text,
               style: GoogleFonts.lato(
-                  color: Colors.deepPurple,
+                  color: const Color.fromARGB(255, 237, 229, 255),
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
               textAlign: TextAlign.center, // Centre Alignment.
